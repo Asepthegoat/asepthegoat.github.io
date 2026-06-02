@@ -1,0 +1,14 @@
+<reference>
+        <div class="account-data lit flex-column align-center justify-center text-center" style="width:300px;border-radius: 10px;border: 2px solid rgb(102, 70, 218);padding: 30px 10px;top:32dvh;position:fixed;">
+            <button class="close" onclick="copyusrdat(this.parentElement)" style="background:none;border:none;font-weight:600;">
+            <h1>$name Data</h1>
+            <img src="$image" style="width: 30%;border-radius: 100%;">
+            <ul>
+                <li>$name</li>
+                <li>$id</li>
+                <li>$clientId</li>
+            </ul>
+            </button>
+            <button class="lit" id="closebutton" onclick="closepanel(this.parentElement)" style="background-color: black; width: 50%; height: 50px;border-radius: 10px;border: 2px solid rgb(102, 70, 218);">Close</button>
+        </div>
+</reference>
