@@ -228,11 +228,11 @@
                 <h3 class="textlit margin-top-5" id="userName">Guest</h3>
                 <p class="textlit margin-top-5" style="position:relative;top: -0px;">ID: Free version no id required</p>
                 <div id="stats" class="margin-top-5 relative flex-row" style="gap:10px;margin-top:-15px;">
-                    <p id="count">Total Client: -</p>
-                    <p>Network Client AVG: -</p>
-                    <p>FPS Cap: default</p>
-                    <p>Limit KBPS Send: default</p>
-                    <p>Start At: <script>document.write(Date())</script></p>
+                    <p id="Stat-CountClient">Total Client: -</p>
+                    <p id="Stat-NetAvg">Network Client Avg: 1 Ms</p>
+                    <p id="Stat-AvgFPS">FPS Avg: 60</p>
+                    <p id="Stat-AvgMem">Memory Use Avg: 0 MB</p>
+                    <p id="Stat-AvgGpu">GPU Use Avg: 0</p>
                 </div>
             </div>
         </div>
@@ -339,6 +339,16 @@
                 }
                 if (dataws.name === "__USERDATA__" && dataws.opr === "@Manager") {
                     clients = dataws.data
+                    console.log(clients)
+                }
+                if (dataws.name === "__SERVER_DATA__" && dataws.opr === "@Manager") {
+                    let vlimit = dataws.args.limit
+                    let vstats = dataws.args.stats
+                    getId("Stat-CountClient").textContent = vstats.clients
+                    getId("Stat-NetAvg").textContent = "Network Client Avg: " + vstats.avgpingclient + " Ms"
+                    getId("Stat-AvgFPS").textContent = "FPS Avg: "+ vstats.avgfpsclient
+                    getId("Stat-AvgMem").textContent = "Memory Use Avg: " + vstats.avgmemclient + " Mb"
+                    getId("Stat-AvgGpu").textContent = "GPU Use Avg: " + vstats.avggpuclient + "Mb"
                     console.log(clients)
                 }
                 if (dataws.name === "__Client__" && dataws.opr === "@Manager") {
