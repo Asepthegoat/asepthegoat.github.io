@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="monetag" content="856c9f650d3df6691e460c2cb106e663">
+    <script>(function(s){s.dataset.zone='11105034',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <script src="modules/js.js"></script>
     <style>
         @keyframes pulse{
@@ -201,6 +201,7 @@
     <title>Client Manager</title>
 </head>
 <body>
+    
     <div id = "settings" class="hide absolute align-center justify-center max-width view flex-column" style="top: 35%;" ><div class="lit" style="background-color: #0c0c0c; width: 40dvw;border-radius: 10px;border:2px solid rgb(102, 70, 218); position: fixed; z-index: 100;">
         <div class="text-center"><h2>SETTINGS(Not working for now)</h2></div>
         <div class="set flex-row align-center"><p style="margin-left: 10px;">Get Client Info</p><button class="toggle-button" id="setting-cinfo"></button></div>
@@ -236,7 +237,7 @@
             <p style="margin: 0px; font-size: 12px;" id="pstage">Remote Name: string | Execute From: UserId(no op because this is server) | Args: ...</p>
             </div>
             <textarea class="lit" placeholder="Input Command Here" id="CMD" style="background-color: rgb(10, 10, 10);resize: none;height: 50dvh;padding: 10px;border: 2px rgb(102, 70, 218) solid;border-radius: 10px;"></textarea>
-            <textarea class="lit" placeholder="Enter your Web Socket url..." id="URL" value="" style="background-color: rgb(10, 10, 10);resize: none;height: 20px;padding: 10px;border: 2px rgb(102, 70, 218) solid;border-radius: 10px;"></textarea>
+            <textarea class="lit" id="URL" value="" style="background-color: rgb(10, 10, 10);resize: none;height: 20px;padding: 10px;border: 2px rgb(102, 70, 218) solid;border-radius: 10px;"></textarea>
             <div class="flex-row">
                 <button class = "lit InvokeButton" id="InvokeButton">Invoke All Client</button>
                 <button class = "lit InvokeButton" onclick="connect()" style="margin-left: 10px;">Connect</button>
@@ -252,6 +253,7 @@
             <p>-&gtcc; --Welcome--</p>
         </div>
         <button class = "lit InvokeButton" onclick="clearlogs()" style="margin-left: 10px;width:100px;height: 40px;">Clear logs</button>
+        <button class = "lit InvokeButton" onclick="clearcmd()" style="margin-left: 10px;width:100px;height: 40px;">Clear code</button>
         <div id="listclient" style="position: relative; top: 5px;overflow-y: auto;height: 276px;">
         </div>
         <div id="reftest" absolute align-center justify-center max-width view flex-column" style="top: 35%;"></div>
@@ -268,7 +270,7 @@
     setTimeout(()=>{
         getId("main").classList.remove("intro")
         window.scrollTo(0,0)
-    },10)
+    },400)
     let url = "" // https://xochitl-superexacting-unconcentrically.ngrok-free.dev
     const fxxa = getId("URL")
     let cmd = getId("CMD")
@@ -498,6 +500,31 @@
     function clearlogs(){
         getId("log").innerHTML = "<p>-&gtcc; --Welcome--</p>"
     }
+    clearcmd
+    function clearcmd(){
+        cmd.value = ""
+    }
+    getId("scriptfile").addEventListener("input",(self)=>{
+        const f = self.target.files[0]
+        f.text().then(sc=>{
+            cmd.value = sc
+        })
+        self.target.value = null
+    })
+    const savescriptint = getId("savescript")
+    const selectscript = getId("script")
+    savescriptint.disabled = true
+    selectscript.disabled = true
+    getId("URL").addEventListener("input",(e)=>{
+        if (e.target.value != ""){
+            savescriptint.disabled = false
+            selectscript.disabled = false
+        }
+        else{
+            savescriptint.disabled = true
+            selectscript.disabled = true
+        }
+    })
 </script>
 <!--others-->
 <script>
@@ -515,6 +542,39 @@ async function savescript() {
     await writable.write(getId("CMD").value)
     await writable.close()
 }
+function Sleep(s){
+    return new Promise(resolve => {
+        setTimeout(resolve, s * 1000);
+    });
+}
+async function typinganimate(id,text,type,bool,delay){
+    const self = getId(id)
+    self[type] = ""
+    if (bool){
+        for(i=-0;i < text.length;i++){
+            self[type] += text[i]
+            await Sleep(delay)
+        }
+    }
+    else{
+        for(i=0;i < text.length;i++){
+            self[type] = text.slice(0,-1 - i)
+            await Sleep(delay)
+        }
+    }
+}
+async function typing(id,text,type){
+    await typinganimate(id,text,type,true,0.2)
+    await Sleep(6.5)
+    await typinganimate(id,text,type,false,0.03)
+}
+setTimeout(async () => {
+    typing("URL","Enter Your Socket URL...","placeholder")
+}, 5);
+setInterval(async () => {
+    typing("URL","Enter Your Socket URL...","placeholder")
+}, 14200);
+
 </script>
 <script>
     const listclient = getId("listclient")
