@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./modules/js.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        .flex-column{
+            display: flex;
+            flex-direction: column;
+        }
+        .justify-center{
+            justify-content: center;
+        }
+        .align-center{
+            align-items: center;
+        }
+        .text-center{
+            text-align: center;
+        }
+        .text-left{
+            text-align: left;
+        }
+        .blur {
+            filter:blur(10px)
+        }
+    </style>
+    <style>
+        *{
+            font-family: sans-serif;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            margin: 0;
+            max-height: 150vh;
+            height: 200vh;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.793) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(255,255,255,0.793) 1px, transparent 1px),
+                linear-gradient(300deg, #200054, #20093b, #250b47, #240059);
+
+            background-size: 70px 70px, 70px 70px, cover;
+            animation: moveGrid 12s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            from {
+                background-position: 0 0, 0 0, 0 0;
+            }
+            to {
+                background-position: 70px 70px, 70px 70px, 0 0;
+            }
+        }
+        code {
+            background-color: rgba(0, 0, 0, 0.325);
+            border: 1px solid white;
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+        header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        hleft {
+            position: absolute;
+            left: 24px;
+        }
+        hright {
+            position: absolute;
+            right: 24px;
+        }
+        g, path, p, h1, h2, h3, h4, h5, h6{
+            pointer-events: none;
+        }
+     
+        th, td {
+            border-left: 2px solid rgb(255, 255, 255);
+            border-bottom: 2px solid rgb(255, 255, 255);
+            padding: 10px;
+        }
+        th{
+            border-top-left-radius: 3px;
+            border-top-right-radius: 10px;
+            background-color: rgba(74, 39, 123, 0.753);
+        }
+        td{
+            background-color: rgba(40, 39, 39, 0.4);
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            max-width: 150px;
+        }
+        h1 {
+            font-size: 27px;
+        }
+        h2 {
+            font-size: 20px;
+        }
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+    <style>
+        .icon{
+            width: 35px;
+            height: 35px;
+        }
+        info{
+            font-size: 12px; max-width: 70px;
+            display:none; transition: all 0s ease; 
+            background-color: rgb(92, 50, 201); color: rgb(255, 255, 255);
+            padding: 3px 3px; border-radius: 7px;
+            position: fixed; border-top-left-radius: -0px;
+        }
+        #menu {
+            filter: blur(0px);
+            width: 250px;
+            height: calc(100% - 10px);
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #312e81, #1e3a8a);
+            border: 1px solid white;
+            border-top-right-radius: 10px;
+            position: fixed;
+            left: 0;
+            padding: 1px 1px;
+            top: 5px;
+            transition: all 1s;
+            z-index: 9999;
+            border-bottom-right-radius: 10px;
+        }
+        #menu button {
+            filter: blur(0px);
+            background: rgba(0, 0, 0, 0.371);
+            border: none;
+            height: 30px;
+            width: 100%;
+        }
+        #menu div{
+            filter: blur(0px);
+            width: 100%;
+        }
+        
+        #menu::-webkit-scrollbar{
+            width: 5px;
+            background:none;
+            border-radius: 100px;
+        }
+        #menu::-webkit-scrollbar-thumb{
+            background-color: #0000008e;
+            border-radius: 100px;
+            padding: 100px;
+        }
+        #menu div button {
+            filter: blur(0px);
+            padding-left: 15px;
+            background: rgb(0, 0, 0, 0.371);
+            border: none;
+            height: 30px;
+            width: 100%;
+        }
+        .hidemenu{
+            left: -300px !important;
+            opacity: 0;
+        }
+        .drop-down {
+            display: block;
+            opacity: 1;
+            transition: height 0.5s ease-in-out, opacity 0.5s 0.2s ease-in;
+            height: 500px;
+            max-height: fit-content;
+            left: 0;
+            position: relative;
+            top:0px;
+        }
+        .closed {
+            transition: height 0.5s 0.2s ease-in-out, opacity 0.5s ease-in;
+            opacity: 0 !important;
+            height: 0 !important;
+            animation: out 0.6s;
+        }
+        @keyframes out {
+            0%,99% {
+                left: 0;
+            }
+            100% {
+                left: -1000px;
+            }
+        }
+    </style>
+    <style>
+        .hljs-string{
+            color: #b7ffad;
+        }
+        .hljs-params{
+            color: rgb(255, 255, 162);
+        }
+        .hljs-built_in {
+            color: rgb(136, 154, 255);
+        }
+        .syntax {
+            padding: 5px 5px;
+            border: 1px solid white;
+            border-radius: 10px;
+            width: max-content;
+            background-color: rgba(0, 0, 0, 0.459);
+        }
+        .hljs-comment {
+            color: rgb(117, 117, 117);
+        }
+        .hljs-title {
+            color: rgb(191, 155, 255);
+        }
+        .internal {
+            color: rgb(251, 135, 135);
+        }
+        .function{
+            color: #a9ffff;
+        }
+        .method{
+            color: #b598ff;
+        }
+        .expl{
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 22px;
+        }
+        .hljs{
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.87);
+            background: rgba(0, 0, 0, 0.375) !important;
+        }
+        .copy{
+            background-color: rgb(128, 57, 252);
+            border: 1px solid white;
+            border-radius: 5px;
+            position: absolute;
+            right: 20px;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+        @media (max-width:480px) {
+            hcenter h1{
+                text-align: center;
+                font-size: 20px;
+                max-width: 200px;
+            }
+            hleft {
+                left: 5px;
+            }
+            hright {
+                right: 5px;
+            }
+            .icon {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://tr.rbxcdn.com/180DAY-45cf2dee64574c9210fac51604cdbd6a/150/150/Image/Webp/noFilter">
+    <title>Documentation</title>
+</head>
+<body>
+    <header>
+        <hleft><svg onclick="togglemenu(false)" desc="Menu" class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M4 5C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H4ZM3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H4C3.44772 13 3 12.5523 3 12ZM3 18C3 17.4477 3.44772 17 4 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H4C3.44772 19 3 18.5523 3 18Z" fill="#9F9Fff"></path> </g></svg></hleft>
+        <hcenter><h1>LIUDEX Documentation</h1></hcenter>
+        <hright>
+            <svg onclick="window.location = 'https://www.youtube.com/@JorellXander'" desc="YouTube" class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800px" height="800px" viewBox="0 -3 20 20" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-300.000000, -7442.000000)" fill="#FFFFFF"><g transform="translate(56.000000, 160.000000)"><path d="M251.988432,7291.58588 L251.988432,7285.97425 C253.980638,7286.91168 255.523602,7287.8172 257.348463,7288.79353 C255.843351,7289.62824 253.980638,7290.56468 251.988432,7291.58588 M263.090998,7283.18289 C262.747343,7282.73013 262.161634,7282.37809 261.538073,7282.26141 C259.705243,7281.91336 248.270974,7281.91237 246.439141,7282.26141 C245.939097,7282.35515 245.493839,7282.58153 245.111335,7282.93357 C243.49964,7284.42947 244.004664,7292.45151 244.393145,7293.75096 C244.556505,7294.31342 244.767679,7294.71931 245.033639,7294.98558 C245.376298,7295.33761 245.845463,7295.57995 246.384355,7295.68865 C247.893451,7296.0008 255.668037,7296.17532 261.506198,7295.73552 C262.044094,7295.64178 262.520231,7295.39147 262.895762,7295.02447 C264.385932,7293.53455 264.28433,7285.06174 263.090998,7283.18289" id="youtube-[#168]"></path></g></g></g></svg>
+            <svg class="icon" desc="tiktok" onclick="window.location = 'https://www.tiktok.com/@ceceploremipsum'" xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="800px" height="800px" viewBox="0 0 24 24" xml:space="preserve"><path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/></svg>
+        </hright>
+    </header>
+    <div id="menu" class="align-center flex-column" style="overflow-x:hidden;overflow-y: auto;">
+        <button onclick="togglemenu(true)" style="position: absolute;width: 30px;right: 1px;background: none;font-size: 18px;">X</button>
+        <h2>LIUDEX</h2>
+        <button class="text-left" onclick="dropdown('Environment')">Environment</button>
+        <div id="Environment" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">getldxstorage</button>
+            <button class="text-left" onclick="showdocument(this)">dumpsenv</button>
+            <button class="text-left" onclick="showdocument(this)">run_on_func</button>
+            <button class="text-left" onclick="showdocument(this)">run_on_method</button>
+        </div>
+        <button class="text-left" onclick="dropdown('Instance')">Instance</button>
+        <div id="Instance" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">disconnect_all_connections</button>
+            <button class="text-left" onclick="showdocument(this)">clonechar</button>
+            <button class="text-left" onclick="showdocument(this)">getchar</button>
+            <button class="text-left" onclick="showdocument(this)">getplayer</button>
+            <button class="text-left" onclick="showdocument(this)">gethumanoid</button>
+            <button class="text-left" onclick="showdocument(this)">getrootpart</button>
+            <button class="text-left" onclick="showdocument(this)">findPlayer</button>
+            <button class="text-left" onclick="showdocument(this)">insertrbxmx</button>
+            <button class="text-left" onclick="showdocument(this)">insertasset</button>
+        </div>
+        <button class="text-left" onclick="dropdown('MISC')">MISC</button>
+        <div id="MISC" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">gototarget</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:FireSocket</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:CloseSession</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:GetSocket</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:GetSockets</button>
+        </div>
+        <button class="text-left" onclick="dropdown('Network')">Network</button>
+        <div id="Network" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">setoffline</button>
+            <button class="text-left" onclick="showdocument(this)">isoffline</button>
+            <button class="text-left" onclick="showdocument(this)">limitsendkbps</button>
+            <button class="text-left" onclick="showdocument(this)">setreplicationlag</button>
+        </div>
+        <button class="text-left" onclick="dropdown('Closure')">Closure</button>
+        <div id="Closure" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">isscriptclosure</button>
+            <button class="text-left" onclick="showdocument(this)">safecall</button>
+        </div>
+        <button class="text-left" onclick="dropdown('liudex')">liudex</button>
+        <div id="liudex" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">liudex:SetInstanceAsClipboard</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:SetInstanceAsScript</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:GetService</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:StopGame</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:Respawn</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:Notify</button>
+            <button class="text-left" onclick="showdocument(this)">liudex:Announcement</button>
+        </div>
+        <button class="text-left" onclick="dropdown('ex')">ex/experince</button>
+        <div id="ex" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">ex:ForceClose</button>
+            <button class="text-left" onclick="showdocument(this)">ex:DisabledGamePlayPaused</button>
+            <button class="text-left" onclick="showdocument(this)">ex:GetPlayTime</button>
+            <button class="text-left" onclick="showdocument(this)">ex:GetHashFunction</button>
+            <button class="text-left" onclick="showdocument(this)">ex:GetFunction</button>
+            <button class="text-left" onclick="showdocument(this)">ex:FindFunction</button>
+            <button class="text-left" onclick="showdocument(this)">ex:GetScriptThread</button>
+        </div>
+        <h2 style="margin-top: 8px;margin-bottom:8px;">LIEX</h2>
+        <button class="text-left" onclick="dropdown('Socket')">Sockets</button>
+        <div id="Socket" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">Socket.new</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:FireSocket</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:CloseSession</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:GetSocket</button>
+            <button class="text-left" onclick="showdocument(this)">Socket:GetSockets</button>
+        </div>
+        <button class="text-left" onclick="dropdown('oprators')">Oprators</button>
+        <div id="oprators" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">@all</button>
+            <button class="text-left" onclick="showdocument(this)">@playerName</button>
+            <button class="text-left" onclick="showdocument(this)">@Manager</button>
+            <button class="text-left" onclick="showdocument(this)">@Socket</button>
+            <button class="text-left" onclick="showdocument(this)">$partialName</button>
+            <button class="text-left" onclick="showdocument(this)">@server(WIP)</button>
+        </div>
+        <button class="text-left" onclick="dropdown('Built-In')">Built In</button>
+        <div id="Built-In" class="drop-down closed">
+            <button class="text-left" onclick="showdocument(this)">Bring</button>
+            <button class="text-left" onclick="showdocument(this)">Code</button>
+            <button class="text-left" onclick="showdocument(this)">Chat</button>
+            <button class="text-left" onclick="showdocument(this)">Entry</button>
+            <button class="text-left" onclick="showdocument(this)">Send Webhook Data</button>
+        </div>
+        <div id="footer"><a href="./script-share/explore.php"><button style="position: absolute; bottom: -40px; height: 30px;background-color: rgb(138, 80, 231);">Get Example Script</button></a></div>
+    </div>
+    <div id="Documentation" style="padding: 5px 20px;">
+        <svg style="position: absolute;left:calc(50vw - 50px);top:calc(50vh - 160px);" xmlns="http://www.w3.org/2000/svg" width="100px" height="100px" viewBox="0 0 1024 1024" version="1.1"><path d="M919.113143 325.485714H104.813714v-67.803428h814.299429v-133.12a36.571429 36.571429 0 0 0-36.571429-36.571429H141.385143a36.571429 36.571429 0 0 0-36.571429 36.571429L103.862857 865.645714a36.425143 36.425143 0 0 0 36.571429 36.571429h673.865143a33.938286 33.938286 0 1 1 0 67.876571h-705.097143-0.146286a73.142857 73.142857 0 0 1-73.069714-73.142857L36.937143 93.184a73.142857 73.142857 0 0 1 73.142857-73.142857h803.693714a73.142857 73.142857 0 0 1 73.142857 73.142857v703.268571a33.938286 33.938286 0 0 1-67.803428 0V325.485714zM206.628571 215.844571a33.938286 33.938286 0 1 1 0-67.803428 33.938286 33.938286 0 0 1 0 67.803428z m203.556572 0a33.938286 33.938286 0 1 1 0-67.803428 33.938286 33.938286 0 0 1 0 67.803428z m-101.814857 0a33.938286 33.938286 0 1 1 0-67.803428 33.938286 33.938286 0 0 1 0 67.803428z m34.889143 250.148572c7.168-7.094857 26.112-7.094857 33.28 0 7.168 7.094857 7.168 29.476571 0 37.156571L265.874286 610.742857 373.76 712.923429c7.168 7.094857 8.118857 27.355429 0 35.328-9.801143 9.728-29.842286 8.192-36.571429 1.609142l-126.025142-125.805714a18.432 18.432 0 0 1 0-25.965714l132.096-132.096z m343.478857 0l132.096 132.096a18.432 18.432 0 0 1 0 26.038857l-126.098286 125.732571c-6.656 6.582857-25.6 10.752-36.571429 0-10.313143-10.24-7.094857-31.305143 0-38.4l108.397715-100.717714-111.908572-108.690286c-7.168-7.68-9.508571-26.624 0-36.059428 9.289143-9.142857 26.916571-7.094857 34.084572 0z m-135.68-26.331429c3.657143-9.508571 21.430857-15.506286 32.768-11.264 10.825143 4.022857 17.188571 19.017143 14.189714 28.525715l-119.808 329.947428c-3.657143 9.508571-20.699429 13.238857-30.281143 9.728-10.166857-3.584-21.211429-17.554286-17.554286-27.062857l120.685715-329.874286z" fill="#ffffff"/></svg>
+        <h1 style="position: absolute;left: calc(50vw - 90px);top:calc(50vh - 65px)">LIUDEX Docs</h1>
+        <h3 style="text-align: center;max-width: 300px;position: absolute;left: calc(50vw - 150px);top:calc(50vh - 35px);">A documentation for the LIUDEX and LIEX modules</h3>
+        <button onclick="showdocument('getldxstorage'); dropdown('Environment')" style="width: 180px;height: 50px;border-radius: 100px;position: absolute;left: calc(50vw - 90px);top:calc(50vh + 35px);background-color: #781afc;border: 2px solid white;box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.603);">Get Started</button>
+    </div>
+    <info></info>
+    <script>
+        const documentation = getId("Documentation")
+        const info = document.querySelector('info')
+        const menuui = getId("menu")
+        function togglemenu(menu){
+            if(menu){
+                menuui.classList.add("hidemenu")
+            }
+            else {
+                menuui.classList.remove("hidemenu")
+            }
+        }
+        document.addEventListener("mousemove",(event)=>{
+            const x = event.clientX
+            const y = event.clientY
+            const el = event.target
+            if (el.getAttribute("desc")){
+                info.style.display = "block"
+                info.textContent = el.getAttribute("desc")
+                if ((window.innerWidth - x) <= 50) {
+                    info.style.top = y + 14 + "px"
+                    info.style.left = x - 30 +"px"
+                    return
+                }
+                info.style.top = y + 14 + "px"
+                info.style.left = x + 10 +"px"
+            }
+            else{
+                info.style.display = "none"
+            }
+        })
+        let doc;
+        function showdocument(name){
+            togglemenu(true)
+            const self = doc[name.textContent || name]
+            genv.name = self.name
+            genv.param = self.param
+            genv.desc = self.desc
+            genv.code = self.code
+            genv.explain = self.explain
+            genv.params = self.params
+            window.history.pushState({},"","?"+ self.name)    
+            setTimeout(() => {
+                hljs.highlightAll()
+                document.querySelectorAll("code").forEach(el => {
+                    el.innerHTML = el.innerHTML.replace(
+                        /&([^&]*)&/g,
+                        (_, text) => `<span class="method">${text}</span>`
+                    ).replace(
+                        /%([^&]*)%/g,
+                        (_, text) => `<span class="function">${text}</span>`
+                    ).replaceAll("amp;","")
+                })
+            }, 50);
+            documentation.GetReference = "documentformat.html"
+        }
+        function copy(self){
+            self.textContent = "Copied!"
+            const code = self.parentElement.querySelector('code').textContent
+            navigator.clipboard.writeText(code)
+            setTimeout(() => {
+                self.textContent = "Copy"
+            }, 3 * 1000);
+        }
+        function dropdown(self){
+            getId(self).classList.toggle("closed")
+        }
+    </script>
+    <script name="data">
+        doc = {
+            ['getldxstorage']: {
+                name: "getldxstorage",
+                param: "getldxstorage(void): Instance",
+                desc: "Returns the Instance container that locate in nil instance,this is similar to replicated storage but executor version to preventing game script detection",
+                code: `local part = Instance.new("Part",%getldxstorage()%)
+&part:SetReference&(game.workspace) -- spoofing __index and parent it to workspace`,
+                explain:"make a part and make it hidden from the game script detection",
+                params:`
+<p style="color:rgb(255,255,0)">! this method only can be called if you include override package !</p>
+<table>
+<tr><th>Method</th><th>What</th><th>Info</th></tr>
+<tr><td>:SetReference</td><td>Instance</td><td>this will spoof the <code>__index</code> and make it look like it doesn't exist</td></tr>
+<tr><td>:Import</td><td>string</td><td>this method is similar to insert rbxmx but it will automaticly parent to getldxstorage() and you can make it true if you want to run script that include in the obj</td></tr>   
+</table> 
+`
+            },
+            ['dumpsenv']: {
+                name: "dumpsenv",
+                param: "dumpsenv(script: Instance,advance: boolean,output: boolean): table",
+                desc: "Returns all closures, metatable( such a <code>__index</code>) and threads in the script",
+                code: `local env = %dumpsenv%(getchar().Animate,true,true)
+for i,v in pairs(env.func) do
+    print(debug.getinfo(v).name)
+end`,
+                explain:"get all closures name in animate script",
+                params:`
+<table>
+<tr><th>Field</th><th>What</th><th>Desc</th></tr>
+<tr><td>func</td><td>function</td><td>Contain a closure table in the script</td></tr>
+<tr><td>thread</td><td>thread</td><td>Contain the thread table</td></tr>
+<tr><td>metamethod</td><td>function</td><td>Contain the metamethod that defined in the script</td></tr>   
+</table> 
+`
+            },
+            ['run_on_func']: {
+                name: "run_on_func",
+                param: "run_on_func(target: function,callback: function): void",
+                desc: "call your function when the target function is called",
+                code: `%run_on_func%(print,function(...) warn('got',...))
+print("hello") --[[
+output:
+hello
+got hello
+]]`,
+                explain:"intercept print function",
+                params:``
+            },
+            ['run_on_method']: {
+                name: "run_on_method",
+                param: "run_on_method(method: string,callback: function,self: any): void",
+                desc: "this will intercept the target metamethod and run your function whet it called",
+                code: `%run_on_method%("FireServer",function(self,...) print(self,...) end)`,
+                explain:"make a simple remote spy to intercept remote event",
+                params:""
+            },
+            ['disconnect_all_connections']: {
+                name: "disconnect_all_connections",
+                param: "disconnect_all_connections(RBXScriptSignal): void",
+                desc: "This will disabling all connection",
+                code: `%disconnect_all_connections%(getplayer().Died)`,
+                explain:"Disable all  died connection from Local Player",
+                params:""
+            },
+            ['clonechar']: {
+                name: "clonechar",
+                param: "clonechar(void): Instance",
+                desc: "This function works if you want to run the player on the offline or local side or create an invis script",
+                code: `%setoffline()
+task.wait()
+clonechar()%`,
+                explain:"make the state offline and clone the char so that we can still move when offline",
+                params:""
+            },
+            ['getchar']: {
+                name: "getchar",
+                param: "getchar(void): Instance",
+                desc: "Return a player character",
+                code: `%getchar%().Humanoid.Health = 0`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['getplayer']: {
+                name: "getplayer",
+                param: "getplayer(void): Instance",
+                desc: "Return a Local Player",
+                code: `%getplayer%().Character.Humanoid.Health = 0`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['gethumanoid']: {
+                name: "gethumanoid",
+                param: "gethumanoid(void): Instance",
+                desc: "Return a player humanoid",
+                code: `%gethumanoid%().Health = 0`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['getrootpart']: {
+                name: "getrootpart",
+                param: "getrootpart(void): Instance",
+                desc: "Return a player HumanoidRootPart",
+                code: `%getrootpart%().CFrame = CFrame.new(1000000000,10000000,1000000000)`,
+                explain:"Tp Player Character",
+                params:""
+            },
+            ['findPlayer']: {
+                name: "findPlayer",
+                param: "findPlayer(partialName: string): Instance",
+                desc: "Return a target player",
+                code: `print(%findPlayer%(agus).AccountAge)`,
+                explain:"get agus_hermanus account age",
+                params:""
+            },
+            ['insertrbxmx']: {
+                name: "insertrbxmx",
+                param: "insertrbxmx(path: string,index: number): Instance",
+                desc: "Import an object to the game it simillar with <code>game:GetObject</code> or <code>InsertService:LoadLocalAsset</code>",
+                code: `local obj = %insertrbxmx%("myobj.rbxmx")
+obj.Parent = workspace`,
+                explain:"insert my object to the workspace from my rbx file",
+                params:""
+            },
+            ['insertasset']: {
+                name: "insertasset",
+                param: "insertrbxmx(assetid: number,index: number): Instance",
+                desc: "Import an object to the game it simillar with <code>game:GetObject</code> or <code>InsertService:LoadLocalAsset</code>",
+                code: `local obj = %insertasset%(1234567)
+obj.Parent = workspace`,
+                explain:"insert my object to the workspace with asset id",
+                params:""
+            },
+            ['isscriptclosure']: {
+                name: "isscriptclosure",
+                param: "isscriptclosure(script: Instance,closure: function): boolean",
+                desc: "Checks whether a given function is a closure in the target script or not, This is useful for finding script-defined functions from garbage collection.",
+                code: `for i,v in next, &getgc&() do
+    if %isscriptclosure%(&getchar()&.Animate,v) then
+        print(i,v)
+    end
+end`,
+                explain:"finding all closure in Animate script",
+                params:""
+            },
+            ['safecall']: {
+                name: "safecall",
+                param: "safecall(origin,disguise): void",
+                desc: "disguise the origin function with the target function by intercepting info in debug",
+                code: `function foo()
+    return
+end
+%safecall%(foo,print)`,
+                explain:"disguise foo as print",
+                params:""
+            },
+            ['setoffline']: {
+                name: "setoffline",
+                param: "setoffline(void): void",
+                desc: "turn your roblox client into offline mode",
+                code: `%setoffline()
+task.wait()
+clonechar()%`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['isoffline']: {
+                name: "isoffline",
+                param: "isoffline(void): void",
+                desc: "Return ",
+                code: `%isoffline()%`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['setoffline']: {
+                name: "setoffline",
+                param: "setoffline(void): void",
+                desc: "turn your roblox client into offline mode",
+                code: `%setoffline()
+task.wait()
+clonechar()%`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['setoffline']: {
+                name: "setoffline",
+                param: "setoffline(void): void",
+                desc: "turn your roblox client into offline mode",
+                code: `%setoffline()
+task.wait()
+clonechar()%`,
+                explain:"Kill Local Player Character",
+                params:""
+            },
+            ['Socket.new']: {
+                name: "Socket.new",
+                param: "Socket.new(name: string,callback: function): RemoteSocket",
+                desc: "return a remote socket that can be fire with <code>:FireSocket</code> and will run the callback when you or someone fire it",
+                code: `local greatings = %Socket.new%("greatings",function(id,...) print(...) end)
+&greatings:FireSocket&("Hello guys")`,
+                explain:"Send a greating message",
+                params:`
+<table>
+<tr><th>Param</th><th>What</th><th>Info</th></tr>
+<tr><td>Id</td><td>string</td><td>User id of the client who fired</td></tr>
+<tr><td>...args</td><td>string</td><td>contains the arguments sent</td></tr>   
+</table> 
+`
+            },
+            ['Socket:FireSocket']: {
+                name: "Socket:FireSocket",
+                param: "Socket:FireSocket(oprator: string,...args: string): void",
+                desc: "this will fire your socket server and send the argument",
+                code: `&bring:FireSocket&("@all","@Guest123") -- bring is a built in remote`,
+                explain:"bring all client to Guest123 coordinate",
+                params:""
+            },
+            ['Socket:CloseSession']: {
+                name: "Socket:CloseSession",
+                param: "Socket:CloseSession(void): void",
+                desc: "This will close your connection from your socket server",
+                code: `&Socket:CloseSession&()
+%task.wait%()
+&Socket:SetMain&("wss://echo.websocket.org/")`,
+                explain:"Close current connection and connect to new one",
+                params:""
+            },
+            ['Socket:GetSocket']: {
+                name: "Socket:GetSocket",
+                param: "Socket:GetSocket(name: string): RemoteSocket",
+                desc: "Return a specific remote socket",
+                code: `local bring = &Socket:GetSocket&("bring")
+&bring:FireSocket&("@all","@self")`,
+                explain:"Get bring remote socket and fire to all client to make them go to your coordinate",
+                params:""
+            },
+            ['Socket:GetSockets']: {
+                name: "Socket:GetSocket",
+                param: "Socket:GetSocket(name: string): RemoteSocket",
+                desc: "Return list of remote socket table in LIEX",
+                code: `local list = &Socket:GetSocket&("bring")
+for i,v in pairs(list) do
+    print(i,v)
+end`,
+                explain:"bring all client tou your coordinate",
+                params:""
+            },
+        }
+    </script>
+</body>
+</html>
